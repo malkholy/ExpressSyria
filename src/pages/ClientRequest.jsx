@@ -80,6 +80,7 @@ function exportToExcel(data, fileName = 'Client_Requests.xls') {
             <th>State Description</th>
             <th>Request Date</th>
             <th>ClientID</th>
+            <th>Client Name</th>
             <th>Sham Cash Code</th>
             <th>Mobile No</th>
             <th>Gift ID</th>
@@ -109,6 +110,7 @@ function exportToExcel(data, fileName = 'Client_Requests.xls') {
         <td>${item.stateDescription || ''}</td>
         <td class="date">${reqDate}</td>
         <td class="text">${item.ClientID || ''}</td>
+        <td>${item.ClientName || ''}</td>
         <td class="text">${item.ShamCashCode || ''}</td>
         <td class="text">${formatMobile(item.ClientMobile)}</td>
         <td class="text">${item.GiftID || ''}</td>
@@ -260,6 +262,7 @@ export default function ClientRequest({ user, def }) {
     },
     { key: "RequestDate", label: "Request Date", render: (val) => fmtDate(val) },
     { key: "ClientID", label: "Client ID", numeric: true, render: (val) => val },
+    { key: "ClientName", label: "Client Name", render: (val) => val || '—' },
     {
       key: "ShamCashCode",
       label: "Sham Cash",
@@ -354,6 +357,7 @@ export default function ClientRequest({ user, def }) {
     // 2. Text search filter
     const reqNo = (item.RequestNo != null ? item.RequestNo : '').toString().toLowerCase();
     const clientId = (item.ClientID != null ? item.ClientID : '').toString().toLowerCase();
+    const clientName = (item.ClientName != null ? item.ClientName : '').toString().toLowerCase();
     const shamCash = (item.ShamCashCode != null ? item.ShamCashCode : '').toString().toLowerCase();
     const mobile = (item.ClientMobile != null ? formatMobile(item.ClientMobile) : '').toLowerCase();
     const giftName = (item.GiftName != null ? item.GiftName : '').toString().toLowerCase();
@@ -363,6 +367,7 @@ export default function ClientRequest({ user, def }) {
     return (
       reqNo.includes(search.toLowerCase()) ||
       clientId.includes(search.toLowerCase()) ||
+      clientName.includes(search.toLowerCase()) ||
       shamCash.includes(search.toLowerCase()) ||
       mobile.includes(search.toLowerCase()) ||
       giftName.includes(search.toLowerCase()) ||

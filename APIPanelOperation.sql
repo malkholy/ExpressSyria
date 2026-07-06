@@ -126,6 +126,7 @@ BEGIN
               ,c.ShamCashCode
               ,d.GiftAmount AS GiftMasterAmount
               ,e.Mobile AS ClientMobile
+              ,e.Name AS ClientName
         FROM ClientRequestHistory a 
         LEFT OUTER JOIN ClientRequestState b ON a.RequestState = b.stateID 
         LEFT OUTER JOIN ClientShamCash c ON a.ClientID = c.ClientID
