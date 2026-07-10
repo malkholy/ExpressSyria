@@ -125,6 +125,8 @@ BEGIN
               ,b.stateDescription
               ,c.ShamCashCode
               ,d.GiftAmount AS GiftMasterAmount
+              ,d.IsChargingCard
+              ,d.IsWallet
               ,e.Mobile AS ClientMobile
               ,e.Name AS ClientName
         FROM ClientRequestHistory a 
@@ -394,6 +396,21 @@ BEGIN
 			order by c.CreatedDate desc
 			return
 		end
+	end
+
+	if @operation='GetColorCenters'
+	begin
+		SELECT
+			  [ShopId]
+			  ,[ShopName]
+			  ,[Address]
+			  ,[GovermentName]
+			  ,[CityName]
+			  ,[Mobile]
+			  ,[Longitude]
+			  ,[Latitude]
+		  FROM [ColorCenterMaster]
+		return
 	end
 
 END

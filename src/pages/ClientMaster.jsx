@@ -122,6 +122,9 @@ export default function ClientMaster({ user, def }) {
   const [sortAsc, setSortAsc] = useState(true);
   const [selectedClientID, setSelectedClientID] = useState(null);
   const [contextMenu, setContextMenu] = useState(null); // { x, y, client }
+  const [colFilters, setColFilters] = useState({
+    GLCID: '', Name: '', Job: '', Mobile: '', Address: '', ArabicName: '', Balance: '', CreatedDate: ''
+  });
 
   async function load() {
     setLoading(true);
@@ -161,14 +164,27 @@ export default function ClientMaster({ user, def }) {
     const govId = (item.GovermentID != null ? item.GovermentID : '').toString().toLowerCase();
     const arabicName = (item.ArabicName != null ? item.ArabicName : '').toString().toLowerCase();
 
+    // Column Filters Check
+    if (colFilters.GLCID && !glcid.includes(colFilters.GLCID.toLowerCase())) return false;
+    if (colFilters.Name && !name.includes(colFilters.Name.toLowerCase())) return false;
+    if (colFilters.Job && !job.includes(colFilters.Job.toLowerCase())) return false;
+    if (colFilters.Mobile && !mobile.includes(colFilters.Mobile.toLowerCase())) return false;
+    if (colFilters.Address && !address.includes(colFilters.Address.toLowerCase())) return false;
+    if (colFilters.ArabicName && !arabicName.includes(colFilters.ArabicName.toLowerCase())) return false;
+    if (colFilters.Balance && !(item.Balance != null ? item.Balance : '').toString().toLowerCase().includes(colFilters.Balance.toLowerCase())) return false;
+    if (colFilters.CreatedDate && !fmtDate(item.CreatedDate).toLowerCase().includes(colFilters.CreatedDate.toLowerCase())) return false;
+
+    if (!search) return true;
+
+    const s = search.toLowerCase();
     return (
-      glcid.includes(search.toLowerCase()) ||
-      name.includes(search.toLowerCase()) ||
-      job.includes(search.toLowerCase()) ||
-      mobile.includes(search.toLowerCase()) ||
-      address.includes(search.toLowerCase()) ||
-      govId.includes(search.toLowerCase()) ||
-      arabicName.includes(search.toLowerCase())
+      glcid.includes(s) ||
+      name.includes(s) ||
+      job.includes(s) ||
+      mobile.includes(s) ||
+      address.includes(s) ||
+      govId.includes(s) ||
+      arabicName.includes(s)
     );
   });
 
@@ -288,29 +304,53 @@ export default function ClientMaster({ user, def }) {
             <table>
               <thead>
                 <tr>
-                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)', cursor: 'pointer' }} onClick={() => handleSort('GLCID')}>
-                    GLC ID {sortField === 'GLCID' ? (sortAsc ? '▲' : '▼') : ''}
+                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)' }}>
+                    <div style={{ cursor: 'pointer', marginBottom: '6px' }} onClick={() => handleSort('GLCID')}>
+                      GLC ID {sortField === 'GLCID' ? (sortAsc ? '▲' : '▼') : ''}
+                    </div>
+                    <input type="text" placeholder="Filter..." value={colFilters.GLCID} onChange={e => setColFilters({...colFilters, GLCID: e.target.value})} style={{ width: '100%', fontSize: '11px', padding: '4px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)' }} onClick={e => e.stopPropagation()} />
                   </th>
-                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)', cursor: 'pointer' }} onClick={() => handleSort('Name')}>
-                    Name {sortField === 'Name' ? (sortAsc ? '▲' : '▼') : ''}
+                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)' }}>
+                    <div style={{ cursor: 'pointer', marginBottom: '6px' }} onClick={() => handleSort('Name')}>
+                      Name {sortField === 'Name' ? (sortAsc ? '▲' : '▼') : ''}
+                    </div>
+                    <input type="text" placeholder="Filter..." value={colFilters.Name} onChange={e => setColFilters({...colFilters, Name: e.target.value})} style={{ width: '100%', fontSize: '11px', padding: '4px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)' }} onClick={e => e.stopPropagation()} />
                   </th>
-                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)', cursor: 'pointer' }} onClick={() => handleSort('Job')}>
-                    Job {sortField === 'Job' ? (sortAsc ? '▲' : '▼') : ''}
+                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)' }}>
+                    <div style={{ cursor: 'pointer', marginBottom: '6px' }} onClick={() => handleSort('Job')}>
+                      Job {sortField === 'Job' ? (sortAsc ? '▲' : '▼') : ''}
+                    </div>
+                    <input type="text" placeholder="Filter..." value={colFilters.Job} onChange={e => setColFilters({...colFilters, Job: e.target.value})} style={{ width: '100%', fontSize: '11px', padding: '4px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)' }} onClick={e => e.stopPropagation()} />
                   </th>
-                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)', cursor: 'pointer' }} onClick={() => handleSort('Mobile')}>
-                    Mobile {sortField === 'Mobile' ? (sortAsc ? '▲' : '▼') : ''}
+                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)' }}>
+                    <div style={{ cursor: 'pointer', marginBottom: '6px' }} onClick={() => handleSort('Mobile')}>
+                      Mobile {sortField === 'Mobile' ? (sortAsc ? '▲' : '▼') : ''}
+                    </div>
+                    <input type="text" placeholder="Filter..." value={colFilters.Mobile} onChange={e => setColFilters({...colFilters, Mobile: e.target.value})} style={{ width: '100%', fontSize: '11px', padding: '4px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)' }} onClick={e => e.stopPropagation()} />
                   </th>
-                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)', cursor: 'pointer' }} onClick={() => handleSort('Address')}>
-                    Address {sortField === 'Address' ? (sortAsc ? '▲' : '▼') : ''}
+                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)' }}>
+                    <div style={{ cursor: 'pointer', marginBottom: '6px' }} onClick={() => handleSort('Address')}>
+                      Address {sortField === 'Address' ? (sortAsc ? '▲' : '▼') : ''}
+                    </div>
+                    <input type="text" placeholder="Filter..." value={colFilters.Address} onChange={e => setColFilters({...colFilters, Address: e.target.value})} style={{ width: '100%', fontSize: '11px', padding: '4px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)' }} onClick={e => e.stopPropagation()} />
                   </th>
-                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)', cursor: 'pointer' }} onClick={() => handleSort('ArabicName')}>
-                    Government Name {sortField === 'ArabicName' ? (sortAsc ? '▲' : '▼') : ''}
+                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)' }}>
+                    <div style={{ cursor: 'pointer', marginBottom: '6px' }} onClick={() => handleSort('ArabicName')}>
+                      Government Name {sortField === 'ArabicName' ? (sortAsc ? '▲' : '▼') : ''}
+                    </div>
+                    <input type="text" placeholder="Filter..." value={colFilters.ArabicName} onChange={e => setColFilters({...colFilters, ArabicName: e.target.value})} style={{ width: '100%', fontSize: '11px', padding: '4px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)' }} onClick={e => e.stopPropagation()} />
                   </th>
-                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)', cursor: 'pointer', textAlign: 'right' }} onClick={() => handleSort('Balance')}>
-                    Balance {sortField === 'Balance' ? (sortAsc ? '▲' : '▼') : ''}
+                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)', textAlign: 'right' }}>
+                    <div style={{ cursor: 'pointer', marginBottom: '6px' }} onClick={() => handleSort('Balance')}>
+                      Balance {sortField === 'Balance' ? (sortAsc ? '▲' : '▼') : ''}
+                    </div>
+                    <input type="text" placeholder="Filter..." value={colFilters.Balance} onChange={e => setColFilters({...colFilters, Balance: e.target.value})} style={{ width: '100%', fontSize: '11px', padding: '4px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)' }} onClick={e => e.stopPropagation()} />
                   </th>
-                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)', cursor: 'pointer' }} onClick={() => handleSort('CreatedDate')}>
-                    Created Date {sortField === 'CreatedDate' ? (sortAsc ? '▲' : '▼') : ''}
+                  <th style={{ position: 'sticky', top: 0, zIndex: 1, background: 'var(--soft)' }}>
+                    <div style={{ cursor: 'pointer', marginBottom: '6px' }} onClick={() => handleSort('CreatedDate')}>
+                      Created Date {sortField === 'CreatedDate' ? (sortAsc ? '▲' : '▼') : ''}
+                    </div>
+                    <input type="text" placeholder="Filter..." value={colFilters.CreatedDate} onChange={e => setColFilters({...colFilters, CreatedDate: e.target.value})} style={{ width: '100%', fontSize: '11px', padding: '4px', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)' }} onClick={e => e.stopPropagation()} />
                   </th>
                 </tr>
               </thead>

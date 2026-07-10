@@ -111,7 +111,7 @@ function exportToExcel(data, fileName = 'Client_Requests.xls') {
         <td class="date">${reqDate}</td>
         <td class="text">${item.ClientID || ''}</td>
         <td>${item.ClientName || ''}</td>
-        <td class="text">${item.ShamCashCode || ''}</td>
+        <td class="text">${item.IsChargingCard == 1 ? '' : (item.ShamCashCode || '')}</td>
         <td class="text">${formatMobile(item.ClientMobile)}</td>
         <td class="text">${item.GiftID || ''}</td>
         <td>${item.GiftName || ''}</td>
@@ -266,14 +266,15 @@ export default function ClientRequest({ user, def }) {
     {
       key: "ShamCashCode",
       label: "Sham Cash",
-      render: (val) => (
-        val ? (
+      render: (val, row) => {
+        if (row.IsChargingCard == 1) return '—';
+        return val ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <span>{val}</span>
             <CopyButton text={val} />
           </div>
-        ) : '—'
-      )
+        ) : '—';
+      }
     },
     {
       key: "ClientMobile",
@@ -340,7 +341,7 @@ export default function ClientRequest({ user, def }) {
       onClick: (row) => {
         handleAssignShamCash(row.ClientID, row.ShamCashCode);
       },
-      show: (row) => true
+      show: (row) => row.IsChargingCard != 1
     }
   ];
 

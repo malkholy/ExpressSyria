@@ -9,6 +9,7 @@ import RawPacking from './pages/RawPacking.jsx';
 import ExpressDetail from './pages/ExpressDetail.jsx';
 import ClientMaster from './pages/ClientMaster.jsx';
 import ClientRequest from './pages/ClientRequest.jsx';
+import ColorCenters from './pages/ColorCenters.jsx';
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
 
@@ -176,6 +177,7 @@ const PAGE_COMPONENTS = {
   express: ExpressDetail,
   client_master: ClientMaster,
   client_request: ClientRequest,
+  color_centers: ColorCenters,
 };
 
 // ─── App ─────────────────────────────────────────────────────────────────────

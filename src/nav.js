@@ -16,6 +16,12 @@ const NAV = [
     label: 'Express Statistics',
     icon: '📊',
     desc: 'View loyalty analytics and card statistics'
+  },
+  {
+    id: 'color_centers',
+    label: 'Color Centers',
+    icon: '🏢',
+    desc: 'View all color centers and shop locations'
   }
 ];
 
