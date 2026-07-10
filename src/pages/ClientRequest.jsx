@@ -184,6 +184,7 @@ export default function ClientRequest({ user, def }) {
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('All'); // 'All', 'New', 'Transfered'
+  const [giftFilter, setGiftFilter] = useState('All'); // 'All', 'Wallet', 'Charging Card', 'Normal'
   const [toast, setToast] = useState('');
   const [assignModal, setAssignModal] = useState(null); // { clientID, code: '' }
 
@@ -355,6 +356,15 @@ export default function ClientRequest({ user, def }) {
       if (statusFilter === 'Transfered' && !s.includes('transfered') && !s.includes('complete')) return false;
     }
 
+    // Gift Type filter
+    if (giftFilter !== 'All') {
+      const isWallet = item.IsWallet == 1;
+      const isChargingCard = item.IsChargingCard == 1;
+      if (giftFilter === 'Wallet' && !isWallet) return false;
+      if (giftFilter === 'Charging Card' && !isChargingCard) return false;
+      if (giftFilter === 'Normal' && (isWallet || isChargingCard)) return false;
+    }
+
     // 2. Text search filter
     const reqNo = (item.RequestNo != null ? item.RequestNo : '').toString().toLowerCase();
     const clientId = (item.ClientID != null ? item.ClientID : '').toString().toLowerCase();
@@ -477,6 +487,35 @@ export default function ClientRequest({ user, def }) {
                 }}
               >
                 {status}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Gift filter buttons group */}
+        <div style={{ display: 'flex', background: 'var(--soft)', border: '1px solid var(--border)', borderRadius: '10px', padding: '3px', gap: '3px' }}>
+          {['All', 'Wallet', 'Charging Card', 'Normal'].map(gType => {
+            const isActive = giftFilter === gType;
+            return (
+              <button
+                key={gType}
+                onClick={() => setGiftFilter(gType)}
+                style={{
+                  height: '32px',
+                  padding: '0 16px',
+                  border: 'none',
+                  borderRadius: '7px',
+                  fontSize: '13px',
+                  fontWeight: isActive ? '700' : '600',
+                  cursor: 'pointer',
+                  background: isActive ? 'linear-gradient(135deg, var(--orange), var(--orange2))' : 'var(--surface)',
+                  color: isActive ? '#fff' : 'var(--text)',
+                  boxShadow: isActive ? '0 2px 4px rgba(249,115,22,0.2)' : 'none',
+                  transition: 'all 0.15s ease',
+                  fontFamily: 'var(--font)'
+                }}
+              >
+                {gType}
               </button>
             );
           })}
