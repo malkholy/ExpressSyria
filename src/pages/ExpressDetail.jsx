@@ -440,7 +440,7 @@ export default function ExpressDetail({ user, def, onBack }) {
                 <th style={{ padding: '8px 12px' }}>Client</th>
                 <th style={{ padding: '8px 12px' }}>Job / Gov</th>
                 <th style={{ padding: '8px 12px' }}>Mobile No</th>
-                <th style={{ padding: '8px 12px', textAlign: 'right' }}>Redeemed</th>
+                <th style={{ padding: '8px 12px', textAlign: 'right' }}>Total Gift Points</th>
               </tr>
             </thead>
             <tbody>
@@ -458,7 +458,7 @@ export default function ExpressDetail({ user, def, onBack }) {
                     {item.Mobile ? (item.Mobile.startsWith('963') ? '0' + item.Mobile.slice(3) : item.Mobile) : '—'}
                   </td>
                   <td style={{ padding: '8px 12px', textAlign: 'right', fontWeight: 800, color: 'var(--orange)' }}>
-                    {Number(item.TotalRedeemed).toLocaleString()} pts
+                    {Number(item.TotalGiftPoints).toLocaleString()} pts
                   </td>
                 </tr>
               ))}
@@ -1012,7 +1012,7 @@ export default function ExpressDetail({ user, def, onBack }) {
                     <th style={{ padding: '8px 4px' }}>Client</th>
                     <th style={{ padding: '8px 4px' }}>Job / Gov</th>
                     <th style={{ padding: '8px 4px' }}>Mobile No</th>
-                    <th style={{ padding: '8px 4px', textAlign: 'right' }}>Redeemed</th>
+                    <th style={{ padding: '8px 4px', textAlign: 'right' }}>Total Gift Points</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1030,7 +1030,7 @@ export default function ExpressDetail({ user, def, onBack }) {
                         {item.Mobile ? (item.Mobile.startsWith('963') ? '0' + item.Mobile.slice(3) : item.Mobile) : '—'}
                       </td>
                       <td style={{ padding: '8px 4px', textAlign: 'right', fontWeight: 800, color: 'var(--orange)' }}>
-                        {Number(item.TotalRedeemed).toLocaleString()} pts
+                        {Number(item.TotalGiftPoints).toLocaleString()} pts
                       </td>
                     </tr>
                   ))}

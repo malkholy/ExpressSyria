@@ -301,7 +301,7 @@ BEGIN
 			isnull(r.GiftName, 'Unknown') as GiftName,
 			count(r.RequestNo) as TotalRequests,
 			isnull(sum(r.GiftAmount), 0) as TotalAmount,
-			isnull(sum(r.GiftPoint * r.GiftAmount), 0) as TotalPoints
+			isnull(sum(r.GiftPoint ), 0) as TotalPoints
 		from ClientRequestHistory r
 		where year(r.RequestDate) = @Year
 		  and (
@@ -318,7 +318,7 @@ BEGIN
 			c.Job,
 			c.Mobile,
 			g.ArabicName as Governorate,
-			isnull(sum(r.GiftPoint * r.GiftAmount), 0) as TotalRedeemed
+			isnull(sum(r.GiftPoint ), 0) as TotalGiftPoints
 		from ClientMaster c
 		join ClientRequestHistory r on c.GLCID = r.ClientID
 		left outer join GovermentMaster g on c.GovermentID = g.GovermentID
