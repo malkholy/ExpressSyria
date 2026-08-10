@@ -22,6 +22,12 @@ const NAV = [
     label: 'Color Centers',
     icon: '🏢',
     desc: 'View all color centers and shop locations'
+  },
+  {
+    id: 'manual_transaction',
+    label: 'Manual Transaction',
+    icon: '📝',
+    desc: 'View manual point history transactions'
   }
 ];
 

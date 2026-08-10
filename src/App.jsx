@@ -10,6 +10,7 @@ import ExpressDetail from './pages/ExpressDetail.jsx';
 import ClientMaster from './pages/ClientMaster.jsx';
 import ClientRequest from './pages/ClientRequest.jsx';
 import ColorCenters from './pages/ColorCenters.jsx';
+import ManualTransaction from './pages/ManualTransaction.jsx';
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
 
@@ -178,6 +179,7 @@ const PAGE_COMPONENTS = {
   client_master: ClientMaster,
   client_request: ClientRequest,
   color_centers: ColorCenters,
+  manual_transaction: ManualTransaction,
 };
 
 // ─── App ─────────────────────────────────────────────────────────────────────

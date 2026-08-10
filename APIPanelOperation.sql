@@ -413,5 +413,43 @@ BEGIN
 		return
 	end
 
+	if @operation ='Get Manual Transaction'
+	begin 
+		select TransactionDate , Point , ClientID , Name , mobile  from PointHistory a left outer join ClientMaster b on a.clientid=b.glcid where TransactionType=4
+		return 
+	end
+
+	if @operation = 'Add Point'
+	begin
+		CREATE TABLE #TempPoint (ClientID int, Point int)
+		INSERT INTO #TempPoint SELECT * FROM openjson(@LineData) WITH (
+			ClientID int '$.ClientID',
+			Point int '$.Point'
+		)
+		DECLARE @AddClientID int = 0, @AddPoint int = 0
+		SELECT TOP(1) @AddClientID = ClientID, @AddPoint = Point FROM #TempPoint
+		DROP TABLE #TempPoint
+
+		IF @AddPoint > 5000
+		BEGIN
+			SET @State = 1
+			SET @Message = 'Maximum allowed points is 5000'
+			RETURN
+		END
+
+		IF @AddPoint <= 0
+		BEGIN
+			SET @State = 1
+			SET @Message = 'Point amount must be greater than 0'
+			RETURN
+		END
+
+		EXEC [dbo].[ClientGiftBouns]
+			@ClientID = @AddClientID,
+			@Point = @AddPoint
+		RETURN 
+	end
+
 END
 GO
+
